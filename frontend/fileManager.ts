@@ -2,7 +2,7 @@ export async function test(){
     try{
     console.log("url started");
     
-    const response = await fetch('http://localhost:8000/api/url/get');
+    const response = await fetch('http://localhost:8000/api/product/get/003');
 
     console.log(response);
 
