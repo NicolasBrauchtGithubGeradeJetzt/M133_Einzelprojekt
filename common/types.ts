@@ -6,3 +6,8 @@ export type Product = {
     "imageName": string,
     "description": string
 }
+
+export type Cart = {
+    "id": string,
+    "quantity": number
+}
