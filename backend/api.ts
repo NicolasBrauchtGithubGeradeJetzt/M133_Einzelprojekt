@@ -9,14 +9,17 @@ const session = new Session({ framework: "oak"});
 await session.init();
 
 const products:Product[] = JSON.parse(await Deno.readTextFile('frontend/assets/products/products.json'));
+var p_id = 'all'
 var url = 'main';
 
 router
     .get("/", async (context) =>{
+        p_id = 'all';
         url = 'main';
         await send(context, "/frontend/index.html");
     })
     .get("/detail/:id", async (context) =>{
+        p_id = String(context.params.id);
         url = 'detail';
         await send(context, "/frontend/index.html");
     })
@@ -32,15 +35,15 @@ router
         const url = await context.state.session.get("url");*/
         context.response.body = {"data" : url};
     })
-    .get("/api/product/get/:id", async (context) => {
-        const id = context.params.id;
-        if(id === 'all'){
+    .get("/api/product/get", async (context) => {
+        console.log(p_id);
+        if(p_id === 'all'){
             context.response.body = {"data" : products};
         }else{
             for(let i = 0; i !=products.length;i++){
-                if(products[i].id === id){
+                if(products[i].id === p_id){
                     const single_product:Product = products[i];
-                    context.response.body = single_product;
+                    context.response.body = {'data' : single_product};
                 }
             }
         }
