@@ -7,7 +7,9 @@ export async function startup_detail(){
     const r_product = await fetch('http://localhost:8000/api/product/get');
     const p:Product = (await r_product.json()).data;
 
+    result += '<h2>' + p.productName + '</h2>';
     result += '<img src="../assets/products/' + p.imageName + '">';
+    result += '<p>' + p.description + '</p>';
     result += '<button class="addCart">Hinzufügen</button>';
 
     main.innerHTML = result;

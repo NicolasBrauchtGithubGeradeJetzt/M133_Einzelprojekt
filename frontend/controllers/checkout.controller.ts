@@ -9,10 +9,10 @@ export async function startup_checkout(error_msg:string[] = []){
     result += '<form>';
 
     result += '<label for="surname" >Vorname: </label>';
-    result += '<input type="text" name="surname" pattern="[A-Za-z]{1}" required>';
+    result += '<input type="text" name="surname" pattern="[A-Za-z]" required>';
 
     result += '<label for="name" >Nachname: </label>';
-    result += '<input type="text" name="name" pattern="[A-Za-z]{1}" required>';
+    result += '<input type="text" name="name" pattern="[A-Za-z]" required>';
 
     result += '<label for="email" >Email-Adresse: </label>';
     result += '<input type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>';

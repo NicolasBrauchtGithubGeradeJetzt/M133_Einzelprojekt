@@ -9,8 +9,8 @@ export async function startup_main(){
 
     await products.forEach(function(p:Product) {
         result += '<article>';
+        result += '<h2>' + p.productName + '</h2>';
         result += '<a href="http://localhost:8000/detail/' + p.id + '"><img src="../assets/products/' + p.imageName + '"></a>';
-        result += '<p>' + p.productName + '</p>';
         result += '<p>' + p.normalPrice + '</p>';
         result += '</article>';
     })
