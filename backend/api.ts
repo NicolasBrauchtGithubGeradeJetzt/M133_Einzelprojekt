@@ -33,6 +33,30 @@ import { bodyReader } from "https://deno.land/std@0.73.0/http/_io.ts";
             url = 'checkout';
             await send(context, "/frontend/index.html");
         })
+        .put("/api/checkout", async (context) => {
+            const error_msg:string[] = [];
+            const form = await context.request.body({ type: "json" }).value;
+            if(await context.state.session.get("cart") == undefined || await context.state.session.get("cart").length == 0){
+                error_msg.push("Sie können kein leeren Warenkorb submiten");
+                context.response.body = {data : error_msg};
+            }else{
+                if(form.surname == ''){
+                    error_msg.push("Vorname darf nicht leer sein!");
+                }
+                if(form.name == ''){
+                    error_msg.push("Nachname darf nicht leer sein!");
+                }
+                if(form.email == ''){
+                    error_msg.push("Email darf nicht leer sein!");
+                }
+                if(error_msg.length > 0){
+                    context.response.body = {data : error_msg};
+                }else{
+                    await context.state.session.set("cart", []);
+                    context.response.body = {data : []};
+                }
+            }
+        })
         .put("/api/cart/set", async (context) =>{
             try{
             const reqCart:Cart = await context.request.body({ type: "json" }).value;

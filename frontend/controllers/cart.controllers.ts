@@ -52,6 +52,7 @@ export async function startup_cart(){
     })
     
     result += '</table>';
+    result += '<a href="http://localhost:8000/checkout"><button>Zu Checkout</button></a>';
     }
 
     main.innerHTML = result;
