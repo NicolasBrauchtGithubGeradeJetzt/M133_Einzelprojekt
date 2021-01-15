@@ -4,7 +4,7 @@ import  { startup_checkout } from './controllers/checkout.controller.ts';
 import  { startup_miniCart } from './controllers/miniCart.controller.ts';
 import { startup_cart } from './controllers/cart.controllers.ts';
 
-export async function test(){
+export async function fileManage(){
     try{
     
     const response = await fetch('http://localhost:8000/api/url/get');
