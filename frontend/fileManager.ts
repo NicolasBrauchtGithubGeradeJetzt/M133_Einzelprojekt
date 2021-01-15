@@ -6,15 +6,10 @@ import { startup_cart } from './controllers/cart.controllers.ts';
 
 export async function test(){
     try{
-    console.log("url started");
     
     const response = await fetch('http://localhost:8000/api/url/get');
 
-    console.log(response);
-
     const url = await response.json();
-
-    console.log("url", url.data);
 
     switch (url.data){
         case "main":
@@ -22,7 +17,6 @@ export async function test(){
             startup_main();
             break;
         case "detail":
-            console.log("detail");
             startup_miniCart();
             startup_detail();
             break;
@@ -30,7 +24,6 @@ export async function test(){
             startup_cart();
             break;
         case "checkout":
-            console.log("checkout");
             startup_miniCart();
             startup_checkout();
             break;

@@ -8,9 +8,6 @@ export async function startup_cart(){
     const json = await r_products.json();
     const products:Product[] = json.data;
 
-    console.log("products : ",products);
-    console.log('length -> ' + products.length);
-
     if(products.length <= 0){
         result += "<p>Es wurden gerade keine Produkte im Warenkorb hinzugefügt.</p>"
     }else{

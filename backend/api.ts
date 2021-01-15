@@ -65,7 +65,6 @@ import { bodyReader } from "https://deno.land/std@0.73.0/http/_io.ts";
             }else{
                 const cart:Cart[] = await context.state.session.get("cart");
                 let found = false;
-                console.log("before cart -> ", cart);
                 for(let i = 0; i !=cart.length;i++){
                     if(cart[i].id === reqCart.id){
                         cart[i].quantity+= reqCart.quantity;
@@ -73,20 +72,16 @@ import { bodyReader } from "https://deno.land/std@0.73.0/http/_io.ts";
                             cart.splice(i, 1);
                         }
                         await context.state.session.set("cart", cart);
-                        console.log("cart -> ", cart);
                         context.response.status = 200;
                         found = true;
                     }
                 }
                 if(!found){
                 cart.push({"id" : reqCart.id, "quantity" : 1});
-                console.log("not exists");
                 }
-                console.log("cart -> ", cart);
             }
             context.response.status = 200;
             }catch (eror){
-                console.log(eror);
             }
         })
         .get("/api/cart/getPrice", async (context) => {
@@ -118,7 +113,6 @@ import { bodyReader } from "https://deno.land/std@0.73.0/http/_io.ts";
             context.response.body = {"data" : url};
         })
         .get("/api/product/get", async (context) => {
-            console.log(p_id);
             if(p_id === 'all'){
                 context.response.body = {"data" : products};
             }else if(p_id === 'cart'){
