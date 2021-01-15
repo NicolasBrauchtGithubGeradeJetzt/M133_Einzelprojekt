@@ -23,7 +23,13 @@ import { bodyReader } from "https://deno.land/std@0.73.0/http/_io.ts";
             p_id = String(context.params.id);
             url = 'detail';
             await send(context, "/frontend/index.html");
-        }).get("/checkout", async (context) =>{
+        })
+        .get("/cart", async (context) =>{
+            p_id = 'cart'
+            url = 'cart';
+            await send(context, "/frontend/index.html");
+        })
+        .get("/checkout", async (context) =>{
             url = 'checkout';
             await send(context, "/frontend/index.html");
         })
@@ -39,6 +45,9 @@ import { bodyReader } from "https://deno.land/std@0.73.0/http/_io.ts";
                 for(let i = 0; i !=cart.length;i++){
                     if(cart[i].id === reqCart.id){
                         cart[i].quantity+= reqCart.quantity;
+                        if(cart[i].quantity <= 0){
+                            cart.splice(i, 1);
+                        }
                         await context.state.session.set("cart", cart);
                         console.log("cart -> ", cart);
                         context.response.status = 200;
@@ -54,13 +63,6 @@ import { bodyReader } from "https://deno.land/std@0.73.0/http/_io.ts";
             context.response.status = 200;
             }catch (eror){
                 console.log(eror);
-            }
-        })
-        .get("/api/cart/get", async (context) => {
-            if(await context.state.session.get("cart") == undefined){
-                
-            }else{
-                const cart:Cart[] = await context.state.session.get("cart");
             }
         })
         .get("/api/cart/getPrice", async (context) => {
@@ -95,6 +97,22 @@ import { bodyReader } from "https://deno.land/std@0.73.0/http/_io.ts";
             console.log(p_id);
             if(p_id === 'all'){
                 context.response.body = {"data" : products};
+            }else if(p_id === 'cart'){
+                if(await context.state.session.get("cart") == undefined){
+                    context.response.body = {data : []};
+                }else{
+                    const cart:Cart[] = await context.state.session.get("cart");
+                    let c_products:Product[] = [];
+
+                    cart.forEach(c => {
+                        for(let i = 0; i !=products.length;i++){
+                            if(products[i].id === c.id){
+                                c_products.push(products[i]);
+                            }
+                        }
+                    });
+                    context.response.body = {data : c_products, cart : cart};
+                }
             }else{
                 for(let i = 0; i !=products.length;i++){
                     if(products[i].id === p_id){

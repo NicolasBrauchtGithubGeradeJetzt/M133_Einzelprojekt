@@ -2,6 +2,7 @@ import  { startup_main } from './controllers/main.controller.ts';
 import  { startup_detail } from './controllers/detail.controller.ts';
 import  { startup_checkout } from './controllers/checkout.controller.ts';
 import  { startup_miniCart } from './controllers/miniCart.controller.ts';
+import { startup_cart } from './controllers/cart.controllers.ts';
 
 export async function test(){
     try{
@@ -26,6 +27,7 @@ export async function test(){
             startup_detail();
             break;
         case "cart":
+            startup_cart();
             break;
         case "checkout":
             console.log("checkout");
