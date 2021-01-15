@@ -2,6 +2,7 @@ import { Product } from "../../common/types.ts";
 
 export async function startup_main(){
     const main = document.querySelector("main");
+    main.className = "mainHub"
     var result = "";
     const r_products = await fetch('http://localhost:8000/api/product/get');
     const products:Product[] = (await r_products.json()).data;

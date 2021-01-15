@@ -1,5 +1,6 @@
     import {Application, Router, send, Context} from "https://deno.land/x/oak@v6.3.1/mod.ts";
     import { Session } from "https://deno.land/x/session@1.1.0/mod.ts";
+import { bodyReader } from "https://deno.land/std@0.73.0/http/_io.ts";
     import { Product, Cart } from "../common/types.ts";
 
     const app = new Application();
@@ -21,6 +22,9 @@
         .get("/detail/:id", async (context) =>{
             p_id = String(context.params.id);
             url = 'detail';
+            await send(context, "/frontend/index.html");
+        }).get("/checkout", async (context) =>{
+            url = 'checkout';
             await send(context, "/frontend/index.html");
         })
         .put("/api/cart/set", async (context) =>{
@@ -57,6 +61,22 @@
                 
             }else{
                 const cart:Cart[] = await context.state.session.get("cart");
+            }
+        })
+        .get("/api/cart/getPrice", async (context) => {
+            if(await context.state.session.get("cart") == undefined){
+                context.response.body = {data : 0};
+            }else{
+                const cart:Cart[] = await context.state.session.get("cart");
+                var price:number = 0;
+                cart.forEach(c => {
+                    for(let i = 0; i !=products.length;i++){
+                        if(products[i].id === c.id){
+                            price += products[i].specialOffer * c.quantity;
+                        }
+                    }
+                });
+                context.response.body = {data : price};
             }
         })
         .put("/api/url/set/:url", async (context) =>{

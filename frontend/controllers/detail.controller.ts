@@ -1,4 +1,5 @@
 import { Product } from "../../common/types.ts";
+import { startup_miniCart} from "./miniCart.controller.ts";
 
 export async function startup_detail(){
     const main = document.querySelector("main");
@@ -18,5 +19,6 @@ export async function startup_detail(){
             method: 'PUT',
             body: JSON.stringify({ id :p.id, quantity :1 }),
         });
+        startup_miniCart();
     });
 }

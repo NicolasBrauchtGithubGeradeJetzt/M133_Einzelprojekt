@@ -3,3 +3,14 @@ header {
     display: grid;
     grid-template-columns: 1fr 2fr;
 }
+
+.mainHub {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+img{
+    height: auto;
+    width: auto;
+    object-fit: cover;
+}
